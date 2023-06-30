@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 09:22:14 by tgellon           #+#    #+#             */
-/*   Updated: 2023/06/29 13:30:49 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/06/30 10:56:28 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	threads_init(t_data *data)
 	}
 }
 
-void	data_init(t_data *data, int argc, char **argv)
+int	data_init(t_data *data, int argc, char **argv)
 {
 	int	i;
 
@@ -35,19 +35,21 @@ void	data_init(t_data *data, int argc, char **argv)
 	data->tt_sleep = ft_atoi(argv[4]);
 	if (argv[5])
 		data->eat_x_times = ft_atoi(argv[5]);
+	else
+		data->eat_x_times = -1;
 	data->philo = malloc(sizeof(t_philo) * data->philo_nbr);
 	if (!data->philo)
-		return (error_display(MALLOC));
+		return (error_display(MALLOC), 0);
 	i = -1;
 	while (++i < data->philo_nbr)
 	{
 		if (pthread_mutex_init(&data->philo[i].l_fork, NULL) != 0)
-			return (free(data->philo));
+			return (free(data->philo), 0);
 		data->philo[i].id = i;
 		data->philo[i].alive = 1;
 		data->philo[i].ate = 0;
 		data->philo[i].data = data;
 		data->philo[i].r_fork = &data->philo[(i + 1) % data->philo_nbr].l_fork;
 	}
-	return ;
+	return (1);
 }

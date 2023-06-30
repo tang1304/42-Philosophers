@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/28 09:13:10 by tgellon           #+#    #+#             */
-/*   Updated: 2023/06/30 10:24:29 by tgellon          ###   ########lyon.fr   */
+/*   Created: 2023/06/30 09:20:45 by tgellon           #+#    #+#             */
+/*   Updated: 2023/06/30 12:13:35 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-int	main(int argc, char **argv)
+long long	get_time(void)
 {
-	t_data	data;
+	struct timeval	time;
 
-	if (error_check(argc, argv))
-		return (1);
-	ft_bzero(&data, sizeof(t_data));
-	if (!data_init(&data, argc, argv))
-		return (1);
-	threads_init(&data);
+	if (gettimeofday(&time, NULL) != 0)
+		return (TIME_ERR);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
