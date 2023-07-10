@@ -19,14 +19,17 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	philo->data->start = get_time();
 	if (philo->id % 2 == 0)
+	{
 		think(philo);
+		ft_usleep(10);
+	}
+	else if (philo->id % 2 != 0 && philo->data->philo_nbr != 1)
+	{
+		think(philo);
+		ft_usleep(1);
+	}
 	if (philo->data->philo_nbr == 1)
-	{
-		handle_one_philo(philo);
-		return ;
-	}
-	while (1)
-	{
-		;
-	}
+		return (printf("%lld Philo %d is thinking ...\n", get_time() - \
+						philo->data->start, philo->id));
+	action(philo, philo->data);
 }

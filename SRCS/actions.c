@@ -12,6 +12,17 @@
 
 #include "../philosophers.h"
 
+void	action(t_philo *philo, t_data *data)
+{
+	while (philo->meals != data->eat_x_times)
+	{
+		if (check_death(philo))
+			return ;
+		if ()
+		philo->meals++;
+	}
+}
+
 int	think(t_philo *philo)
 {
 	long long	time;
@@ -23,3 +34,13 @@ int	think(t_philo *philo)
 	return (1);
 }
 
+int	sleep(t_philo *philo)
+{
+	long long	time;
+
+	pthread_mutex_lock(&philo->data->write);
+	time = get_time() - philo->data->start;
+	printf("%lld Philo %d is sleeping zzzz...\n", time, philo->id);
+	pthread_mutex_unlock(&philo->data->write);
+	return (1);
+}
