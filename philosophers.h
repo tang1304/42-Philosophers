@@ -16,6 +16,10 @@
 # include <sys/time.h>
 # include <pthread.h>
 # include <stdio.h>
+# include <unistd.h>
+# include <stdint.h>
+# include <stdlib.h>
+# include <string.h>
 
 # define MALLOC "Error: Malloc failure"
 # define TRHREAD_CR "Error: pthread_create failure"
@@ -28,6 +32,7 @@ typedef struct s_data
 	int				tt_eat;
 	int				tt_sleep;
 	int				eat_x_times;
+	int				dead;
 	long long		start;
 	pthread_mutex_t	write;
 	t_philo			*philo;
@@ -39,8 +44,9 @@ typedef struct s_philo
 	int				id;
 	int				alive;
 	int				ate;
+	int				meals;
 	pthread_t		thread;
-	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	l_fork;
 	pthread_mutex_t	*r_fork;
 }				t_philo;
 
@@ -48,6 +54,7 @@ typedef struct s_philo
 int			main(int argc, char **argv);
 
 /*	actions	*/
+void		action(t_philo *philo, t_data *data);
 int			think(t_philo *philo);
 
 /*	errors.c	*/
@@ -62,6 +69,8 @@ int			data_init(t_data *data, int argc, char **argv);
 void		threads_init(t_data *data);
 
 /*	utils.c	*/
+int			check_death(t_philo *philo);
 long long	get_time(void);
+void		ft_usleep(long long waiting);
 
 #endif
