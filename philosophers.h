@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 11:54:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/12 07:55:28 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/12 14:33:38 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ typedef struct s_data
 	int				tt_die;
 	int				tt_eat;
 	int				tt_sleep;
+	int				death;
 	int				eat_x_times;
-	int				dead;
 	long long		start;
 	pthread_mutex_t	write;
 	struct s_philo	*philo;
@@ -43,8 +43,8 @@ typedef struct s_philo
 {
 	t_data			*data;
 	int				id;
-	int				alive;
 	long long		ate;
+	int				alive;
 	int				meals;
 	pthread_t		thread;
 	pthread_mutex_t	l_fork;
