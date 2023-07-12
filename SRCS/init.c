@@ -6,26 +6,13 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 09:22:14 by tgellon           #+#    #+#             */
-/*   Updated: 2023/06/30 10:56:28 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/12 07:55:17 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-void	threads_init(t_data *data)
-{
-	int	i;
-
-	i = -1;
-	while (++i < data->philo_nbr)
-	{
-		if (pthread_create(data->philo[i].thread, NULL, philo_routine, \
-			&data->philo[i]) != 0)
-			return (free(data->philo), error_display(TRHREAD_CR));
-	}
-}
-
-int	data_init(t_data *data, int argc, char **argv)
+int	data_init(t_data *data, char **argv)
 {
 	int	i;
 
@@ -45,7 +32,7 @@ int	data_init(t_data *data, int argc, char **argv)
 	{
 		if (pthread_mutex_init(&data->philo[i].l_fork, NULL) != 0)
 			return (free(data->philo), 0);
-		data->philo[i].id = i;
+		data->philo[i].id = i + 1;
 		data->philo[i].alive = 1;
 		data->philo[i].ate = 0;
 		data->philo[i].data = data;
