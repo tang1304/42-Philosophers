@@ -1,14 +1,13 @@
 # --- VARIABLES --- #
 CC = cc
-CFLAGS = -Wall -Wextra -Werror - pthread -g3 #-fsanitize=address
-SRCS_DIR = ./srcs/
-SRCS = main.c init.c errors.c \
-		ft_atoi.c ft_bzero.c
+CFLAGS = -Wall -Wextra -Werror -pthread -g3 #-fsanitize=address
+SRCS_DIR = ./SRCS/
+SRCS = actions.c errors.c exec.c init.c lib.c main.c utils.c
 OBJ_DIR = objs/
 OBJ = ${SRCS:%.c=${OBJ_DIR}%.o}
 NAME = philosophers
 RM = rm -f
-HEADER = ${SRCS_DIR}philosophers.h
+HEADER = philosophers.h
 
 # --- COLORS --- #
 
@@ -31,12 +30,10 @@ FORCE:
 all :	${NAME}
 
 clean :
-		@${MAKE} clean -sC
 		rm -rf objs/
 		@echo "${_RED}### Removed Philo object files ###${_NOC}"
 
 fclean :	clean
-		@${MAKE} fclean -sC
 		${RM} ${NAME}
 		@echo "${_RED}### Removed ${NAME} ###${_NOC}"
 
