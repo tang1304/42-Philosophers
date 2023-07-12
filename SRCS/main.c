@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 09:13:10 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/11 14:38:52 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/12 11:29:23 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,5 @@ int	main(int argc, char **argv)
 		return (1);
 	threads_init(&data);
 	destroy_mutexes(&data);
+	return (0);
 }

@@ -5,7 +5,7 @@ SRCS_DIR = ./SRCS/
 SRCS = actions.c errors.c exec.c init.c lib.c main.c utils.c
 OBJ_DIR = objs/
 OBJ = ${SRCS:%.c=${OBJ_DIR}%.o}
-NAME = philosophers
+NAME = philo
 RM = rm -f
 HEADER = philosophers.h
 

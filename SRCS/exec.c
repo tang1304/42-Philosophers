@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:15:53 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/12 07:55:13 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/12 15:39:47 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@ int	threads_init(t_data *data)
 	int	i;
 
 	i = -1;
+	pthread_mutex_lock(&data->write);
 	while (++i < data->philo_nbr)
 	{
 		if (pthread_create(&data->philo[i].thread, NULL, philo_routine, \
 			&data->philo[i]) != 0)
 			return (free(data->philo), error_display(TRHREAD_CR), 0);
 	}
+	pthread_mutex_unlock(&data->write);
 	pthread_mutex_lock(&data->write);
 	data->start = get_time();
 	pthread_mutex_unlock(&data->write);
@@ -30,7 +32,7 @@ int	threads_init(t_data *data)
 	while (++i < data->philo_nbr)
 	{
 		if (pthread_join(data->philo[i].thread, NULL) != 0)
-			return (error_display(THR_JOIN), 0);
+			return (free(data->philo), error_display(THR_JOIN), 0);
 	}
 	return (1);
 }
@@ -41,22 +43,15 @@ void	*philo_routine(void *arg)
 	long long	start;
 
 	philo = (t_philo *)arg;
-	while (!philo->data->start)
+	while (philo->data->start == 0)
 	{
 		pthread_mutex_lock(&philo->data->write);
 		start = philo->data->start;
 		pthread_mutex_unlock(&philo->data->write);
 	}
+	philo->ate = get_time();
 	if (philo->id % 2 == 0)
-	{
-		think(philo);
-		ft_usleep(10);
-	}
-	else if (philo->id % 2 != 0 && philo->data->philo_nbr != 1)
-	{
-		think(philo);
-		ft_usleep(1);
-	}
+		ft_usleep(5);
 	if (philo->data->philo_nbr == 1)
 		return (printf("%lld Philo %d is thinking ...\n", get_time() - \
 						philo->data->start, philo->id), NULL);
