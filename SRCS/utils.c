@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:20:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/13 10:46:54 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/13 13:36:26 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	check_death(t_philo *philo)
 	time = get_time() - philo->ate;
 	// printf("Philo %d time last meal: %lld\n", philo->id, philo->ate);
 	// printf("Philo %d time: %lld\n", philo->id, time);
-	if (time >= philo->data->tt_die)
+	if (time >= philo->data->tt_die && philo->data->death == 0)
 	{
-		printf("%lld Philo %d is dead\n", (get_time() - philo->data->start), philo->id);
+		printf("%lld %d died\n", (get_time() - philo->data->start), philo->id);
 		philo->data->death = 1;
 		pthread_mutex_unlock(&philo->data->write);
 		return (0);
@@ -46,7 +46,7 @@ int	check_own_death(t_philo *philo)
 	// printf("Philo %d time: %lld\n", philo->id, time);
 	if (time >= philo->data->tt_die)
 	{
-		printf("%lld Philo %d is dead\n", (get_time() - philo->data->start), philo->id);
+		printf("%lld %d died\n", (get_time() - philo->data->start), philo->id);
 		philo->data->death = 1;
 		pthread_mutex_unlock(&philo->data->write);
 		return (0);
@@ -83,11 +83,12 @@ void	ft_usleep(long long waiting, t_philo *philo)
 {
 	long long	time;
 
+	(void)philo;
 	time = get_time();
 	while ((get_time() - time) < waiting)
 	{
-		if (!check_death(philo))
-			return ;
+		// if (!check_death(philo))
+		// 	return ;
 		usleep(100);
 	}
 }
