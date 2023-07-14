@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:04:29 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/14 09:06:35 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/14 11:15:57 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void	action(t_philo *philo, t_data *data)
 			return ;
 		if (!eat(philo))
 			return ;
+		if (philo->meals == data->eat_x_times)
+			break ;
 		if (!sleeping(philo))
 			return ;
 	}
