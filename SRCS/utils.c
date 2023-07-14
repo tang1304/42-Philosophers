@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:20:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/14 08:48:20 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/14 10:11:29 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int	check_death(t_philo *philo)
 
 	pthread_mutex_lock(&philo->data->write);
 	time = get_time() - philo->ate;
-	// printf("Philo %d time last meal: %lld\n", philo->id, philo->ate);
-	// printf("Philo %d time: %lld\n", philo->id, time);
 	if (time >= philo->data->tt_die && philo->data->death == 0)
 	{
 		printf("%lld %d died\n", (get_time() - philo->data->start), philo->id);
