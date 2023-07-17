@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:20:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/17 11:38:04 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 14:36:03 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,34 @@ int	check_death(t_philo *philo)
 {
 	long long	time;
 
-	pthread_mutex_lock(&philo->data->write);
+	// pthread_mutex_lock(&philo->data->write);
 	time = get_time() - philo->ate;
 	if (time >= philo->data->tt_die && philo->data->death == 0)
 	{
 		printf("%lld %d died\n", (get_time() - philo->data->start), philo->id);
 		philo->data->death = 1;
-		pthread_mutex_unlock(&philo->data->write);
+		// pthread_mutex_unlock(&philo->data->write);
 		return (0);
 	}
 	if (philo->data->death == 1)
 	{
-		pthread_mutex_unlock(&philo->data->write);
+		// pthread_mutex_unlock(&philo->data->write);
 		return (0);
 	}
-	pthread_mutex_unlock(&philo->data->write);
+	// pthread_mutex_unlock(&philo->data->write);
 	return (1);
+}
+
+int	is_dead(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->write);
+	if (philo->data->death == 1)
+	{
+		pthread_mutex_unlock(&philo->data->write);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->data->write);
+	return (0);
 }
 
 long long	get_time(void)
