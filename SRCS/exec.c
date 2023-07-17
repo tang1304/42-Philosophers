@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:15:53 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/14 11:35:38 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 11:50:21 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ static int	death_check_loop(t_data *data)
 
 	while (1)
 	{
-		ft_usleep(2);
+		ft_usleep(3);
 		i = -1;
 		while (++i < data->philo_nbr)
 		{
 			pthread_mutex_lock(&data->write);
-			if (data->philo->meals != data->eat_x_times)
+			if (data->philo->meals == data->eat_x_times)
 			{
 				pthread_mutex_unlock(&data->write);
 				return (1);
@@ -42,7 +42,12 @@ static int	death_check_loop(t_data *data)
 			if (data->philo[i].ate != 0)
 			{
 				if (!check_death(&data->philo[i]))
+				{
+					// pthread_mutex_lock(&data->write);
+					// data->death = 1;
+					// pthread_mutex_unlock(&data->write);
 					return (0);
+				}
 			}
 		}
 	}
@@ -87,7 +92,7 @@ void	*philo_routine(void *arg)
 	pthread_mutex_unlock(&philo->data->write);
 	philo->ate = get_time();
 	if (philo->id % 2 == 0)
-		usleep(500);
+		usleep(400);
 	if (philo->data->philo_nbr == 1)
 		return (handle_one_philo(philo), NULL);
 	action(philo, philo->data);

@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:04:29 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/14 12:04:28 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 12:25:50 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,26 @@
 
 static int	get_forks(t_philo *philo)
 {
-	if (pthread_mutex_lock(&philo->l_fork) != 0)
-		return (0);
-	if (pthread_mutex_lock(philo->r_fork) != 0)
-		return (0);
+	if (philo->id % 2 == 0)
+	{
+		if (pthread_mutex_lock(&philo->l_fork) != 0)
+			return (0);
+		if (pthread_mutex_lock(philo->r_fork) != 0)
+		{
+			pthread_mutex_unlock(&philo->l_fork);
+			return (0);
+		}
+	}
+	else
+	{
+		if (pthread_mutex_lock(philo->r_fork) != 0)
+			return (0);
+		if (pthread_mutex_lock(&philo->l_fork) != 0)
+		{
+			pthread_mutex_unlock(philo->r_fork);
+			return (0);
+		}
+	}
 	return (1);
 }
 
@@ -72,8 +88,8 @@ static int	eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->write);
 		ft_usleep(philo->data->tt_eat);
 	}
-	pthread_mutex_unlock(&philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
+	pthread_mutex_unlock(&philo->l_fork);
 	return (1);
 }
 
