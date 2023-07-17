@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:04:29 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/17 12:25:50 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 15:38:53 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	think(t_philo *philo)
 {
 	long long	time;
 
-	if (philo->data->death == 1)
+	if (is_dead(philo) == 1)
 		return (0);
 	pthread_mutex_lock(&philo->data->write);
 	time = get_time() - philo->data->start;
@@ -55,7 +55,7 @@ static int	sleeping(t_philo *philo)
 {
 	long long	time;
 
-	if (philo->data->death == 1)
+	if (is_dead(philo) == 1)
 		return (0);
 	pthread_mutex_lock(&philo->data->write);
 	time = get_time() - philo->data->start;
@@ -70,13 +70,13 @@ static int	eat(t_philo *philo)
 {
 	long long	time;
 
-	if (philo->data->death == 1)
+	if (is_dead(philo) == 1)
 		return (0);
 	if (philo->meals == philo->data->eat_x_times)
 		return (0);
 	if (!get_forks(philo))
 		return (0);
-	if (philo->data->death == 0)
+	if (is_dead(philo) == 0)
 	{
 		pthread_mutex_lock(&philo->data->write);
 		time = get_time() - philo->data->start;
@@ -95,7 +95,7 @@ static int	eat(t_philo *philo)
 
 void	action(t_philo *philo, t_data *data)
 {
-	while (philo->meals != data->eat_x_times && data->death == 0)
+	while (philo->meals != data->eat_x_times)
 	{
 		if (!think(philo))
 			return ;
@@ -106,10 +106,8 @@ void	action(t_philo *philo, t_data *data)
 		if (!sleeping(philo))
 			return ;
 	}
+	pthread_mutex_lock(&philo->data->write);
 	if (philo->meals == data->eat_x_times)
-	{
-		pthread_mutex_lock(&philo->data->write);
 		printf("Philo %d is done eating\n", philo->id);
-		pthread_mutex_unlock(&philo->data->write);
-	}
+	pthread_mutex_unlock(&philo->data->write);
 }
