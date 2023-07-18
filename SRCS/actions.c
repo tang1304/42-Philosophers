@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:04:29 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/18 11:26:58 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 16:10:27 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ static int	eat(t_philo *philo)
 
 	if (is_dead(philo) == 1)
 		return (0);
-	if (philo->id % 2 != 0)
-		ft_usleep(1);
+	// if (philo->id % 2 != 0)
+	// 	usleep(500);
 	if (philo->meals == philo->data->eat_x_times)
 		return (0);
 	if (!get_forks(philo))
@@ -96,10 +96,18 @@ static int	eat(t_philo *philo)
 
 void	action(t_philo *philo, t_data *data)
 {
+	// long long	wait;
+
+	// pthread_mutex_lock(&data->pause);
+	// wait = 1;
+	// // wait = odd_wait(data);
+	// pthread_mutex_unlock(&data->pause);
 	while (philo->meals != data->eat_x_times)
 	{
 		if (!think(philo))
 			return ;
+		if (philo->id % 2 != 0 && philo->philo_nbr % 2 != 0)
+			usleep(300);
 		if (!eat(philo))
 			return ;
 		if (philo->meals == data->eat_x_times)

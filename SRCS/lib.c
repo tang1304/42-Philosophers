@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:32:10 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/11 14:32:40 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 13:59:08 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,13 @@ void	ft_bzero(void *s, size_t n)
 		str[i] = 0;
 		i++;
 	}
+}
+
+void	ft_usleep(long long waiting)
+{
+	long long	time;
+
+	time = get_time();
+	while ((get_time() - time) < waiting)
+		usleep(200);
 }
