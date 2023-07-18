@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:20:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/18 10:27:49 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 14:03:32 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,14 @@ long long	get_time(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-void	ft_usleep(long long waiting)
+long long	odd_wait(t_data *data)
 {
-	long long	time;
+	long long	wait;
 
-	time = get_time();
-	while ((get_time() - time) < waiting)
-		usleep(200);
+	wait = data->tt_die - data->tt_eat - data->tt_sleep;
+	if (wait < 0)
+		wait = -wait;
+	return (wait);
 }
 
 void	destroy_mutexes(t_data *data)

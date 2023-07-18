@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 11:54:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/18 10:27:27 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 16:01:36 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_data
 typedef struct s_philo
 {
 	t_data			*data;
+	int				philo_nbr;
 	int				id;
 	long long		ate;
 	int				meals;
@@ -71,12 +72,13 @@ int			data_init(t_data *data, char **argv);
 /*	lib.c	*/
 int			ft_atoi(const char *str);
 void		ft_bzero(void *s, size_t n);
+void		ft_usleep(long long waiting);
 
 /*	utils.c	*/
 void		release_forks(t_philo *philo);
 int			is_dead(t_philo *philo);
 long long	get_time(void);
-void		ft_usleep(long long waiting);
+long long	odd_wait(t_data *data);
 void		destroy_mutexes(t_data *data);
 
 #endif

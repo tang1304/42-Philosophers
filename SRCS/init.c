@@ -6,11 +6,30 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 09:22:14 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/14 09:57:49 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 16:07:49 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
+
+int	philo_init(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->philo_nbr)
+	{
+		if (pthread_mutex_init(&data->philo[i].l_fork, NULL) != 0)
+			return (free(data->philo), 0);
+		data->philo[i].philo_nbr = data->philo_nbr;
+		data->philo[i].id = i + 1;
+		data->philo[i].ate = 0;
+		data->philo[i].meals = 0;
+		data->philo[i].data = data;
+		data->philo[i].r_fork = &data->philo[(i + 1) % data->philo_nbr].l_fork;
+	}
+	return (1);
+}
 
 int	data_init(t_data *data, char **argv)
 {
@@ -28,15 +47,7 @@ int	data_init(t_data *data, char **argv)
 	if (!data->philo)
 		return (error_display(MALLOC), 0);
 	i = -1;
-	while (++i < data->philo_nbr)
-	{
-		if (pthread_mutex_init(&data->philo[i].l_fork, NULL) != 0)
-			return (free(data->philo), 0);
-		data->philo[i].id = i + 1;
-		data->philo[i].ate = 0;
-		data->philo[i].meals = 0;
-		data->philo[i].data = data;
-		data->philo[i].r_fork = &data->philo[(i + 1) % data->philo_nbr].l_fork;
-	}
+	if (!philo_init(data))
+		return (0);
 	return (1);
 }
