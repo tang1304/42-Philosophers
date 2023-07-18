@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 11:54:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/18 08:26:59 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 10:27:27 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_data
 	int				death;
 	int				eat_x_times;
 	long long		start;
-	pthread_mutex_t	write;
+	pthread_mutex_t	pause;
 	struct s_philo	*philo;
 }				t_data;
 

@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:04:29 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/18 08:54:26 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 11:26:58 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ int	think(t_philo *philo)
 
 	if (is_dead(philo) == 1)
 		return (0);
-	pthread_mutex_lock(&philo->data->write);
+	pthread_mutex_lock(&philo->data->pause);
 	time = get_time() - philo->data->start;
 	if (philo->data->death == 0)
 		printf("%lld %d is thinking\n", time, philo->id);
-	pthread_mutex_unlock(&philo->data->write);
+	pthread_mutex_unlock(&philo->data->pause);
 	return (1);
 }
 
@@ -57,11 +57,11 @@ static int	sleeping(t_philo *philo)
 
 	if (is_dead(philo) == 1)
 		return (0);
-	pthread_mutex_lock(&philo->data->write);
+	pthread_mutex_lock(&philo->data->pause);
 	time = get_time() - philo->data->start;
 	if (philo->data->death == 0)
 		printf("%lld %d is sleeping\n", time, philo->id);
-	pthread_mutex_unlock(&philo->data->write);
+	pthread_mutex_unlock(&philo->data->pause);
 	ft_usleep(philo->data->tt_sleep);
 	return (1);
 }
@@ -72,20 +72,22 @@ static int	eat(t_philo *philo)
 
 	if (is_dead(philo) == 1)
 		return (0);
+	if (philo->id % 2 != 0)
+		ft_usleep(1);
 	if (philo->meals == philo->data->eat_x_times)
 		return (0);
 	if (!get_forks(philo))
 		return (0);
 	if (is_dead(philo) == 0)
 	{
-		pthread_mutex_lock(&philo->data->write);
+		pthread_mutex_lock(&philo->data->pause);
 		time = get_time() - philo->data->start;
 		printf("%lld %d has taken a fork\n", time, philo->id);
 		printf("%lld %d has taken a fork\n", time, philo->id);
 		printf("%lld %d is eating\n", time, philo->id);
 		philo->ate = get_time();
 		philo->meals++;
-		pthread_mutex_unlock(&philo->data->write);
+		pthread_mutex_unlock(&philo->data->pause);
 		ft_usleep(philo->data->tt_eat);
 	}
 	release_forks(philo);
@@ -107,8 +109,8 @@ void	action(t_philo *philo, t_data *data)
 	}
 	if (philo->meals == data->eat_x_times)
 	{
-		pthread_mutex_lock(&philo->data->write);
+		pthread_mutex_lock(&philo->data->pause);
 		printf("Philo %d is done eating\n", philo->id);
-		pthread_mutex_unlock(&philo->data->write);
+		pthread_mutex_unlock(&philo->data->pause);
 	}
 }
