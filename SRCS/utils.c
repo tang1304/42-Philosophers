@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:20:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/18 08:25:59 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 10:27:49 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ void	release_forks(t_philo *philo)
 
 int	is_dead(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->write);
+	pthread_mutex_lock(&philo->data->pause);
 	if (philo->data->death == 1)
 	{
-		pthread_mutex_unlock(&philo->data->write);
+		pthread_mutex_unlock(&philo->data->pause);
 		return (1);
 	}
-	pthread_mutex_unlock(&philo->data->write);
+	pthread_mutex_unlock(&philo->data->pause);
 	return (0);
 }
 
@@ -66,5 +66,5 @@ void	destroy_mutexes(t_data *data)
 	i = 0;
 	while (++i < data->philo_nbr)
 		pthread_mutex_destroy(&data->philo[i].l_fork);
-	pthread_mutex_destroy(&data->write);
+	pthread_mutex_destroy(&data->pause);
 }
