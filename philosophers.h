@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 11:54:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/17 14:31:25 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 08:26:59 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int			ft_atoi(const char *str);
 void		ft_bzero(void *s, size_t n);
 
 /*	utils.c	*/
-int			check_death(t_philo *philo);
+void		release_forks(t_philo *philo);
 int			is_dead(t_philo *philo);
 long long	get_time(void);
 void		ft_usleep(long long waiting);
