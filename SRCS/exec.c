@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:15:53 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/17 15:37:28 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 08:23:27 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,35 @@ static void	handle_one_philo(t_philo *philo)
 			philo->id);
 }
 
+static int	check_death(t_philo *philo)
+{
+	long long	time;
+
+	// pthread_mutex_lock(&philo->data->write);
+	time = get_time() - philo->ate;
+	if (time >= philo->data->tt_die && philo->data->death == 0)
+	{
+		printf("%lld %d died\n", (get_time() - philo->data->start), philo->id);
+		philo->data->death = 1;
+		// pthread_mutex_unlock(&philo->data->write);
+		return (0);
+	}
+	if (philo->data->death == 1)
+	{
+		// pthread_mutex_unlock(&philo->data->write);
+		return (0);
+	}
+	// pthread_mutex_unlock(&philo->data->write);
+	return (1);
+}
+
 static int	death_check_loop(t_data *data)
 {
 	int	i;
 
 	while (1)
 	{
-		ft_usleep(3);
+		ft_usleep(4);
 		i = -1;
 		while (++i < data->philo_nbr)
 		{
