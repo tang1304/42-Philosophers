@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 11:54:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/18 16:01:36 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 09:45:52 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_philo
 {
 	t_data			*data;
 	int				philo_nbr;
+	int				delta;
 	int				id;
 	long long		ate;
 	int				meals;

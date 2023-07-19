@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:15:53 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/18 15:31:12 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 14:05:11 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	death_check_loop(t_data *data)
 
 	while (1)
 	{
-		ft_usleep(2);
+		ft_usleep(4000);
 		i = -1;
 		while (++i < data->philo_nbr)
 		{
@@ -84,8 +84,8 @@ int	threads_init(t_data *data)
 	pthread_mutex_lock(&data->pause);
 	data->start = get_time();
 	pthread_mutex_unlock(&data->pause);
-	i = -1;
 	death_check_loop(data);
+	i = -1;
 	while (++i < data->philo_nbr)
 	{
 		if (pthread_join(data->philo[i].thread, NULL) != 0)
@@ -113,7 +113,7 @@ void	*philo_routine(void *arg)
 	philo->ate = get_time();
 	pthread_mutex_unlock(&philo->data->pause);
 	if (philo->id % 2 != 0)
-		ft_usleep(1);
+		ft_usleep(5000);
 	if (philo->data->philo_nbr == 1)
 		return (handle_one_philo(philo), NULL);
 	action(philo, philo->data);

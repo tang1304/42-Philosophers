@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 09:22:14 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/18 16:07:49 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 09:50:44 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ int	philo_init(t_data *data)
 		if (pthread_mutex_init(&data->philo[i].l_fork, NULL) != 0)
 			return (free(data->philo), 0);
 		data->philo[i].philo_nbr = data->philo_nbr;
+		data->philo[i].delta = data->tt_eat - data->tt_sleep;
+		if (data->philo[i].delta < 0)
+			data->philo[i].delta = -data->philo[i].delta;
 		data->philo[i].id = i + 1;
 		data->philo[i].ate = 0;
 		data->philo[i].meals = 0;

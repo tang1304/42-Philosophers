@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:20:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/18 14:03:32 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 13:19:46 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ long long	odd_wait(t_data *data)
 {
 	long long	wait;
 
-	wait = data->tt_die - data->tt_eat - data->tt_sleep;
+	wait = data->tt_eat - data->tt_sleep;
 	if (wait < 0)
 		wait = -wait;
 	return (wait);
