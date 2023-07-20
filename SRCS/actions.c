@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:04:29 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/20 13:56:40 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 15:45:45 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,19 @@ static int	get_forks(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
 	{
-		pthread_mutex_lock(&philo->l_fork);
-		pthread_mutex_lock(philo->r_fork);
+		while (pthread_mutex_lock(&philo->l_fork) != 0)
+		{
+			ft_usleep(1);
+		}
+		while (pthread_mutex_lock(philo->r_fork) != 0)
+			ft_usleep(1);
 	}
 	else
 	{
-		pthread_mutex_lock(philo->r_fork);
-		pthread_mutex_lock(&philo->l_fork);
+		while (pthread_mutex_lock(philo->r_fork) != 0)
+			ft_usleep(1);
+		while (pthread_mutex_lock(&philo->l_fork) != 0)
+			ft_usleep(1);
 	}
 	return (1);
 }
@@ -55,6 +61,7 @@ int	think(t_philo *philo)
 {
 	long long	time;
 
+	pthread_mutex_lock(&philo->data->pause);
 	time = get_time() - philo->data->start;
 	if (philo->data->death == 0)
 		printf("%lld %d is thinking\n", time, philo->id);
@@ -98,14 +105,19 @@ static int	eat(t_philo *philo)
 
 void	action(t_philo *philo, t_data *data)
 {
+	// long long	wait;
+
+	// pthread_mutex_lock(&philo->data->pause);
+	// wait = odd_wait(data);
+	// pthread_mutex_unlock(&philo->data->pause);
 	while (philo->meals != data->eat_x_times)
 	{
 		think(philo);
+		if (philo->philo_nbr % 2 != 0 && philo->id % 2 != 0)
+			ft_usleep(100);
+			// ft_usleep(philo->tt_eat);
 		if (is_dead(philo) == 1)
 			return ;
-		if (philo->philo_nbr % 2 != 0 && philo->id == philo->philo_nbr)
-			ft_usleep(data->tt_eat)
-			;
 		eat(philo);
 		if (philo->meals == data->eat_x_times)
 			break ;
