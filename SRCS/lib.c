@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:32:10 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/18 13:59:08 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 13:10:51 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,8 @@ void	ft_usleep(long long waiting)
 
 	time = get_time();
 	while ((get_time() - time) < waiting)
+	{
+		// printf("1\n");
 		usleep(200);
+	}
 }
