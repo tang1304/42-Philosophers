@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 09:22:14 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/18 16:07:49 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 08:26:48 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	philo_init(t_data *data)
 		data->philo[i].id = i + 1;
 		data->philo[i].ate = 0;
 		data->philo[i].meals = 0;
+		data->philo[i].dead = 0;
 		data->philo[i].data = data;
 		data->philo[i].r_fork = &data->philo[(i + 1) % data->philo_nbr].l_fork;
 	}

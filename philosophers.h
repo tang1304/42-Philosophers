@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 11:54:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/18 16:01:36 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 08:26:34 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_philo
 	int				id;
 	long long		ate;
 	int				meals;
+	int				dead;
 	pthread_t		thread;
 	pthread_mutex_t	l_fork;
 	pthread_mutex_t	*r_fork;
