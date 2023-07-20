@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:04:29 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/19 13:54:09 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 14:18:53 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ static int	eat(t_philo *philo)
 		return (0);
 	if (philo->meals == philo->data->eat_x_times)
 		return (0);
-	if (philo->id % 2 != 0 && philo->delta == 0/* && philo->philo_nbr % 2 != 0*/)
-		ft_usleep(100);
+	// if (philo->id % 2 != 0 && philo->delta == 0/* && philo->philo_nbr % 2 != 0*/)
+	// 	ft_usleep(100);
 	else if (philo->id % 2 != 0 && philo->delta != 0/* && philo->philo_nbr % 2 != 0*/)
 		ft_usleep(500);
 	if (!get_forks(philo))
@@ -109,10 +109,10 @@ void	action(t_philo *philo, t_data *data)
 		if (!sleeping(philo))
 			return ;
 	}
-// 	if (philo->meals == data->eat_x_times)
-// 	{
-// 		pthread_mutex_lock(&philo->data->pause);
-// 		printf("Philo %d is done eating\n", philo->id);
-// 		pthread_mutex_unlock(&philo->data->pause);
-// 	}
+	if (philo->meals == data->eat_x_times)
+	{
+		pthread_mutex_lock(&philo->data->pause);
+		printf("Philo %d is done eating\n", philo->id);
+		pthread_mutex_unlock(&philo->data->pause);
+	}
 }
