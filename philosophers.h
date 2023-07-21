@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 11:54:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/20 08:26:34 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 08:24:10 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <string.h>
 
+# define BAD_ARG "Error: Bad argument, must be a number"
 # define MALLOC "Error: Malloc failure"
 # define TRHREAD_CR "Error: pthread_create failure"
 # define TIME_ERR "Error: gettimeofday failure"
@@ -36,6 +37,8 @@ typedef struct s_data
 	int				eat_x_times;
 	long long		start;
 	pthread_mutex_t	pause;
+	pthread_mutex_t	*forks;
+	int				*forks_id;
 	struct s_philo	*philo;
 }				t_data;
 
@@ -48,8 +51,8 @@ typedef struct s_philo
 	int				meals;
 	int				dead;
 	pthread_t		thread;
-	pthread_mutex_t	l_fork;
-	pthread_mutex_t	*r_fork;
+	int				l_fork;
+	int				r_fork;
 }				t_philo;
 
 /*	main.c	*/
@@ -72,6 +75,7 @@ int			data_init(t_data *data, char **argv);
 
 /*	lib.c	*/
 int			ft_atoi(const char *str);
+int			ft_isdigit(int c);
 void		ft_bzero(void *s, size_t n);
 void		ft_usleep(long long waiting);
 
