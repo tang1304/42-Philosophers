@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 11:54:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/21 08:24:10 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 08:55:08 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 # define BAD_ARG "Error: Bad argument, must be a number"
 # define MALLOC "Error: Malloc failure"
+# define MUTEX "Error: mutex_init failure"
 # define TRHREAD_CR "Error: pthread_create failure"
 # define TIME_ERR "Error: gettimeofday failure"
 # define THR_JOIN "Error: pthread_join failure\n"
