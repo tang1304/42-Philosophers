@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:04:29 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/20 13:56:40 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 14:25:34 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,37 @@
 // 	return (1);
 // }
 
+static int	loop_get_fork(t_philo *philo, int fork)
+{
+	while (1)
+	{
+		pthread_mutex_lock(&philo->data->forks[fork]);
+		if (philo->data->forks_id[fork] == 1)
+		{
+			pthread_mutex_unlock(&philo->data->forks[fork]);
+			// usleep(200);
+			continue ;
+		}
+		pthread_mutex_unlock(&philo->data->forks[fork]);
+		break ;
+	}
+	pthread_mutex_lock(&philo->data->forks[fork]);
+	philo->data->forks_id[fork] = 1;
+	pthread_mutex_unlock(&philo->data->forks[fork]);
+	return (1);
+}
+
 static int	get_forks(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
 	{
-		pthread_mutex_lock(&philo->l_fork);
-		pthread_mutex_lock(philo->r_fork);
+		loop_get_fork(philo, philo->l_fork);
+		loop_get_fork(philo, philo->r_fork);
 	}
 	else
 	{
-		pthread_mutex_lock(philo->r_fork);
-		pthread_mutex_lock(&philo->l_fork);
+		loop_get_fork(philo, philo->r_fork);
+		loop_get_fork(philo, philo->l_fork);
 	}
 	return (1);
 }
@@ -55,6 +75,7 @@ int	think(t_philo *philo)
 {
 	long long	time;
 
+	pthread_mutex_lock(&philo->data->pause);
 	time = get_time() - philo->data->start;
 	if (philo->data->death == 0)
 		printf("%lld %d is thinking\n", time, philo->id);
@@ -92,7 +113,16 @@ static int	eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->pause);
 		ft_usleep(philo->data->tt_eat);
 	}
-	release_forks(philo);
+	if (philo->id % 2 == 0)
+	{
+		release_forks(philo, philo->l_fork);
+		release_forks(philo, philo->r_fork);
+	}
+	else
+	{
+		release_forks(philo, philo->r_fork);
+		release_forks(philo, philo->l_fork);
+	}
 	return (1);
 }
 
@@ -103,13 +133,12 @@ void	action(t_philo *philo, t_data *data)
 		think(philo);
 		if (is_dead(philo) == 1)
 			return ;
-		if (philo->philo_nbr % 2 != 0 && philo->id == philo->philo_nbr)
-			ft_usleep(data->tt_eat)
-			;
 		eat(philo);
 		if (philo->meals == data->eat_x_times)
 			break ;
 		sleeping(philo);
+		if (philo->philo_nbr % 2 != 0 && philo->id % 2 != 0)
+			ft_usleep(philo->philo_nbr * 10);
 	}
 	if (philo->meals == data->eat_x_times)
 	{

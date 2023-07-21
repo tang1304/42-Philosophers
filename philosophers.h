@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 11:54:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/21 08:55:08 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 13:16:10 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void		ft_bzero(void *s, size_t n);
 void		ft_usleep(long long waiting);
 
 /*	utils.c	*/
-void		release_forks(t_philo *philo);
+void		release_forks(t_philo *philo, int fork);
 int			is_dead(t_philo *philo);
 long long	get_time(void);
 long long	odd_wait(t_data *data);

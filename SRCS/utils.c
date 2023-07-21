@@ -6,24 +6,17 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:20:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/20 12:48:18 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 13:23:13 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-void	release_forks(t_philo *philo)
+void	release_forks(t_philo *philo, int fork)
 {
-	if (philo->id % 2 == 0)
-	{
-		pthread_mutex_unlock(&philo->l_fork);
-		pthread_mutex_unlock(philo->r_fork);
-	}
-	else
-	{
-		pthread_mutex_unlock(philo->r_fork);
-		pthread_mutex_unlock(&philo->l_fork);
-	}
+	pthread_mutex_lock(&philo->data->forks[fork]);
+	philo->data->forks_id[fork] = 0;
+	pthread_mutex_unlock(&philo->data->forks[fork]);
 }
 
 int	is_dead(t_philo *philo)
@@ -66,6 +59,6 @@ void	destroy_mutexes(t_data *data)
 
 	i = 0;
 	while (++i < data->philo_nbr)
-		pthread_mutex_destroy(&data->philo[i].l_fork);
+		pthread_mutex_destroy(&data->forks[i]);
 	pthread_mutex_destroy(&data->pause);
 }
