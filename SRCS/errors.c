@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 09:25:24 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/18 08:22:10 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 08:28:13 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,19 @@ int	error_check(int argc, char **argv)
 {
 	int	nbr;
 	int	i;
+	int	j;
 
 	if (argc != 5 && argc != 6)
-	{
-		error_display("Error: Wrong number of arguments");
-		return (1);
-	}
+		return (error_display("Error: Wrong number of arguments"), 1);
 	i = 0;
 	while (++i < argc)
 	{
+		j = -1;
+		while (argv[i][++j])
+		{
+			if (!ft_isdigit(argv[i][j]))
+				return (error_display(BAD_ARG), 1);
+		}
 		nbr = ft_atoi(argv[i]);
 		if (nbr <= 0)
 		{
