@@ -1,6 +1,6 @@
 # --- VARIABLES --- #
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -pthread #-g3 -O2 -fsanitize=thread #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -pthread -g3 -O2 -fsanitize=thread #-fsanitize=address
 SRCS_DIR = ./SRCS/
 SRCS = actions.c errors.c exec.c init.c lib.c main.c utils.c
 OBJ_DIR = objs/

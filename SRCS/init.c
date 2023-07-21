@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 09:22:14 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/21 09:04:15 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 10:06:25 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static int	mutex_init(t_data *data)
 			free(data->forks);
 			return (error_display(MUTEX), 0);
 		}
+		data->forks_id[i] = 0;
 	}
 	return (1);
 }
