@@ -6,21 +6,43 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 09:22:14 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/21 08:36:28 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 09:04:15 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-int	philo_init(t_data *data)
+static int	mutex_init(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	if (pthread_mutex_init(&data->pause, NULL) != 0)
+		return (error_display(MUTEX), free(data->philo), free(data->forks), \
+				free(data->forks_id), 0);
+	while (++i < data->philo_nbr)
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+		{
+			pthread_mutex_destroy(&data->pause);
+			free(data->philo);
+			free(data->forks_id);
+			while (--i >= 0)
+				pthread_mutex_destroy(&data->forks[i]);
+			free(data->forks);
+			return (error_display(MUTEX), 0);
+		}
+	}
+	return (1);
+}
+
+static int	philo_init(t_data *data)
 {
 	int	i;
 
 	i = -1;
 	while (++i < data->philo_nbr)
 	{
-		// if (pthread_mutex_init(&data->philo[i].l_fork, NULL) != 0)
-		// 	return (free(data->philo), 0);
 		data->philo[i].philo_nbr = data->philo_nbr;
 		data->philo[i].id = i + 1;
 		data->philo[i].ate = 0;
@@ -56,6 +78,8 @@ int	data_init(t_data *data, char **argv)
 	if (!data->forks)
 		return (error_display(MALLOC), free(data->philo), free(data->forks), 0);
 	if (!philo_init(data))
+		return (0);
+	if (!mutex_init(data))
 		return (0);
 	return (1);
 }
