@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:04:29 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/20 15:45:45 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 11:42:19 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,7 @@ void	action(t_philo *philo, t_data *data)
 	{
 		think(philo);
 		if (philo->philo_nbr % 2 != 0 && philo->id % 2 != 0)
-			ft_usleep(100);
-			// ft_usleep(philo->tt_eat);
+			ft_usleep(50);
 		if (is_dead(philo) == 1)
 			return ;
 		eat(philo);
