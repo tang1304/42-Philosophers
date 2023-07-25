@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:15:53 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/21 14:22:47 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 08:47:34 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	death_check_loop(t_data *data)
 
 	while (1)
 	{
-		ft_usleep(3);
+		usleep(2000);
 		i = -1;
 		while (++i < data->philo_nbr)
 		{
@@ -106,7 +106,7 @@ void	*philo_routine(void *arg)
 	if (philo->data->philo_nbr == 1)
 		return (handle_one_philo(philo), NULL);
 	if (philo->id % 2 != 0)
-		ft_usleep(5);
+		usleep(3000);
 	action(philo, philo->data);
 	return (NULL);
 }
