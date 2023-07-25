@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:04:29 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/25 14:57:51 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 15:22:44 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,46 +38,60 @@
 
 static int	get_forks(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
-	{
-		while (philo->l_fork_i == 0 || philo->r_fork_i == 0)
+	int	left;
+	int right;
+
+	left = 0;
+	right = 0;
+	// if (philo->id % 2 == 0)
+	// {
+		while (left == 0 || right == 0)
 		{
-			if (philo->l_fork_i == 0)
+			// printf("ici\n");
+			if (left == 0)
 			{
 				pthread_mutex_lock(&philo->l_fork);
-				philo->l_fork_i = 1;
+				if (philo->l_fork_i == 0)
+				{
+					philo->l_fork_i = 1;
+					left = 1;
+				}
 				pthread_mutex_unlock(&philo->l_fork);
 			}
-			if (philo->r_fork_i == 0)
+			if (right == 0)
 			{
 				pthread_mutex_lock(philo->r_fork);
-				*philo->r_fork_i = 1;
+				if (philo->r_fork_i == 0)
+				{
+					*philo->r_fork_i = 1;
+					right = 1;
+				}
 				pthread_mutex_unlock(philo->r_fork);
 			}
-			if (philo->l_fork_i == 0 || philo->r_fork_i == 0)
-				usleep(100);
+			// if (philo->l_fork_i == 0 || philo->r_fork_i == 0)
+			// 	usleep(100);
 		}
-	}
-	else
-	{
-		while (philo->l_fork_i == 0 || philo->r_fork_i == 0)
-		{
-			if (philo->r_fork_i == 0)
-			{
-				pthread_mutex_lock(philo->r_fork);
-				*philo->r_fork_i = 1;
-				pthread_mutex_unlock(philo->r_fork);
-			}
-			if (philo->l_fork_i == 0)
-			{
-				pthread_mutex_lock(&philo->l_fork);
-				philo->l_fork_i = 1;
-				pthread_mutex_unlock(&philo->l_fork);
-			}
-			if (philo->l_fork_i == 0 || philo->r_fork_i == 0)
-				usleep(100);
-		}
-	}
+// 	}
+// 	else
+// 	{
+// 		while (philo->l_fork_i == 0 || philo->r_fork_i == 0)
+// 		{
+// 			if (philo->r_fork_i == 0)
+// 			{
+// 				pthread_mutex_lock(philo->r_fork);
+// 				*philo->r_fork_i = 1;
+// 				pthread_mutex_unlock(philo->r_fork);
+// 			}
+// 			if (philo->l_fork_i == 0)
+// 			{
+// 				pthread_mutex_lock(&philo->l_fork);
+// 				philo->l_fork_i = 1;
+// 				pthread_mutex_unlock(&philo->l_fork);
+// 			}
+// 			if (philo->l_fork_i == 0 || philo->r_fork_i == 0)
+// 				usleep(100);
+// 		}
+// 	}
 	return (1);
 }
 
