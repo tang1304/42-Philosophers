@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:04:29 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/25 11:42:19 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 14:57:51 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,43 @@ static int	get_forks(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
 	{
-		while (pthread_mutex_lock(&philo->l_fork) != 0)
+		while (philo->l_fork_i == 0 || philo->r_fork_i == 0)
 		{
-			ft_usleep(1);
+			if (philo->l_fork_i == 0)
+			{
+				pthread_mutex_lock(&philo->l_fork);
+				philo->l_fork_i = 1;
+				pthread_mutex_unlock(&philo->l_fork);
+			}
+			if (philo->r_fork_i == 0)
+			{
+				pthread_mutex_lock(philo->r_fork);
+				*philo->r_fork_i = 1;
+				pthread_mutex_unlock(philo->r_fork);
+			}
+			if (philo->l_fork_i == 0 || philo->r_fork_i == 0)
+				usleep(100);
 		}
-		while (pthread_mutex_lock(philo->r_fork) != 0)
-			ft_usleep(1);
 	}
 	else
 	{
-		while (pthread_mutex_lock(philo->r_fork) != 0)
-			ft_usleep(1);
-		while (pthread_mutex_lock(&philo->l_fork) != 0)
-			ft_usleep(1);
+		while (philo->l_fork_i == 0 || philo->r_fork_i == 0)
+		{
+			if (philo->r_fork_i == 0)
+			{
+				pthread_mutex_lock(philo->r_fork);
+				*philo->r_fork_i = 1;
+				pthread_mutex_unlock(philo->r_fork);
+			}
+			if (philo->l_fork_i == 0)
+			{
+				pthread_mutex_lock(&philo->l_fork);
+				philo->l_fork_i = 1;
+				pthread_mutex_unlock(&philo->l_fork);
+			}
+			if (philo->l_fork_i == 0 || philo->r_fork_i == 0)
+				usleep(100);
+		}
 	}
 	return (1);
 }
@@ -86,8 +110,8 @@ static int	eat(t_philo *philo)
 {
 	long long	time;
 
-	get_forks(philo);
-	if (is_dead(philo) == 0)
+	// get_forks(philo);
+	if (is_dead(philo) == 0 && get_forks(philo) == 1)
 	{
 		pthread_mutex_lock(&philo->data->pause);
 		time = get_time() - philo->data->start;
@@ -99,7 +123,7 @@ static int	eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->pause);
 		ft_usleep(philo->data->tt_eat);
 	}
-	release_forks(philo);
+		release_forks(philo);
 	return (1);
 }
 
@@ -113,8 +137,8 @@ void	action(t_philo *philo, t_data *data)
 	while (philo->meals != data->eat_x_times)
 	{
 		think(philo);
-		if (philo->philo_nbr % 2 != 0 && philo->id % 2 != 0)
-			ft_usleep(50);
+		// if (philo->philo_nbr % 2 != 0 && philo->id % 2 != 0)
+		// 	ft_usleep(50);
 		if (is_dead(philo) == 1)
 			return ;
 		eat(philo);

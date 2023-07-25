@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 11:54:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/25 10:57:31 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 14:11:15 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ typedef struct s_philo
 	int				dead;
 	pthread_t		thread;
 	pthread_mutex_t	l_fork;
-	// int				l_fork_i;
+	int				l_fork_i;
 	pthread_mutex_t	*r_fork;
-	// int				*r_fork_i;
+	int				*r_fork_i;
 }				t_philo;
 
 /*	main.c	*/
