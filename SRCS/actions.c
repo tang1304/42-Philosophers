@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:04:29 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/25 15:22:44 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 15:31:13 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static int	get_forks(t_philo *philo)
 
 	left = 0;
 	right = 0;
-	// if (philo->id % 2 == 0)
-	// {
+	if (philo->id % 2 == 0)
+	{
 		while (left == 0 || right == 0)
 		{
 			// printf("ici\n");
@@ -55,6 +55,7 @@ static int	get_forks(t_philo *philo)
 				{
 					philo->l_fork_i = 1;
 					left = 1;
+					printf("%d has taken a fork\n", philo->id);
 				}
 				pthread_mutex_unlock(&philo->l_fork);
 			}
@@ -65,33 +66,42 @@ static int	get_forks(t_philo *philo)
 				{
 					*philo->r_fork_i = 1;
 					right = 1;
+					printf("%d has taken a fork\n", philo->id);
 				}
 				pthread_mutex_unlock(philo->r_fork);
 			}
-			// if (philo->l_fork_i == 0 || philo->r_fork_i == 0)
-			// 	usleep(100);
+			if (philo->l_fork_i == 0 || philo->r_fork_i == 0)
+				usleep(100);
 		}
-// 	}
-// 	else
-// 	{
-// 		while (philo->l_fork_i == 0 || philo->r_fork_i == 0)
-// 		{
-// 			if (philo->r_fork_i == 0)
-// 			{
-// 				pthread_mutex_lock(philo->r_fork);
-// 				*philo->r_fork_i = 1;
-// 				pthread_mutex_unlock(philo->r_fork);
-// 			}
-// 			if (philo->l_fork_i == 0)
-// 			{
-// 				pthread_mutex_lock(&philo->l_fork);
-// 				philo->l_fork_i = 1;
-// 				pthread_mutex_unlock(&philo->l_fork);
-// 			}
-// 			if (philo->l_fork_i == 0 || philo->r_fork_i == 0)
-// 				usleep(100);
-// 		}
-// 	}
+	}
+	else
+	{
+		while (left == 0 || right == 0)
+		{
+			if (right == 0)
+			{
+				pthread_mutex_lock(philo->r_fork);
+				if (philo->r_fork_i == 0)
+				{
+					*philo->r_fork_i = 1;
+					right = 1;
+				}
+				pthread_mutex_unlock(philo->r_fork);
+			}
+			if (left == 0)
+			{
+				pthread_mutex_lock(&philo->l_fork);
+				if (philo->l_fork_i == 0)
+				{
+					philo->l_fork_i = 1;
+					left = 1;
+				}
+				pthread_mutex_unlock(&philo->l_fork);
+			}
+			if (philo->l_fork_i == 0 || philo->r_fork_i == 0)
+				usleep(100);
+		}
+	}
 	return (1);
 }
 
@@ -143,11 +153,6 @@ static int	eat(t_philo *philo)
 
 void	action(t_philo *philo, t_data *data)
 {
-	// long long	wait;
-
-	// pthread_mutex_lock(&philo->data->pause);
-	// wait = odd_wait(data);
-	// pthread_mutex_unlock(&philo->data->pause);
 	while (philo->meals != data->eat_x_times)
 	{
 		think(philo);
