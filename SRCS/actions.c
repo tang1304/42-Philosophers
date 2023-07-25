@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:04:29 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/21 14:25:34 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 08:47:21 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ static int	loop_get_fork(t_philo *philo, int fork)
 		if (philo->data->forks_id[fork] == 1)
 		{
 			pthread_mutex_unlock(&philo->data->forks[fork]);
-			// usleep(200);
+			usleep(100);
 			continue ;
 		}
-		pthread_mutex_unlock(&philo->data->forks[fork]);
+		// pthread_mutex_unlock(&philo->data->forks[fork]);
 		break ;
 	}
-	pthread_mutex_lock(&philo->data->forks[fork]);
+	// pthread_mutex_lock(&philo->data->forks[fork]);
 	philo->data->forks_id[fork] = 1;
 	pthread_mutex_unlock(&philo->data->forks[fork]);
 	return (1);
@@ -92,7 +92,7 @@ static int	sleeping(t_philo *philo)
 	if (philo->data->death == 0)
 		printf("%lld %d is sleeping\n", time, philo->id);
 	pthread_mutex_unlock(&philo->data->pause);
-	ft_usleep(philo->data->tt_sleep);
+	usleep(philo->data->tt_sleep * 1000);
 	return (1);
 }
 
@@ -111,7 +111,7 @@ static int	eat(t_philo *philo)
 		philo->ate = get_time();
 		philo->meals++;
 		pthread_mutex_unlock(&philo->data->pause);
-		ft_usleep(philo->data->tt_eat);
+		usleep(philo->data->tt_eat * 1000);
 	}
 	if (philo->id % 2 == 0)
 	{
@@ -137,8 +137,8 @@ void	action(t_philo *philo, t_data *data)
 		if (philo->meals == data->eat_x_times)
 			break ;
 		sleeping(philo);
-		if (philo->philo_nbr % 2 != 0 && philo->id % 2 != 0)
-			ft_usleep(philo->philo_nbr * 10);
+		// if (philo->philo_nbr % 2 != 0 && philo->id % 2 != 0)
+			usleep(philo->philo_nbr * 10);
 	}
 	if (philo->meals == data->eat_x_times)
 	{
