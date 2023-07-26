@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:04:29 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/25 08:47:21 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 15:42:36 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,16 @@ static int	loop_get_fork(t_philo *philo, int fork)
 
 static int	get_forks(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
-	{
+	// if (philo->id % 2 == 0)
+	// {
 		loop_get_fork(philo, philo->l_fork);
 		loop_get_fork(philo, philo->r_fork);
-	}
-	else
-	{
-		loop_get_fork(philo, philo->r_fork);
-		loop_get_fork(philo, philo->l_fork);
-	}
+	// }
+	// else
+	// {
+	// 	loop_get_fork(philo, philo->r_fork);
+	// 	loop_get_fork(philo, philo->l_fork);
+	// }
 	return (1);
 }
 
@@ -113,16 +113,16 @@ static int	eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->pause);
 		usleep(philo->data->tt_eat * 1000);
 	}
-	if (philo->id % 2 == 0)
-	{
+	// if (philo->id % 2 == 0)
+	// {
 		release_forks(philo, philo->l_fork);
 		release_forks(philo, philo->r_fork);
-	}
-	else
-	{
-		release_forks(philo, philo->r_fork);
-		release_forks(philo, philo->l_fork);
-	}
+	// }
+	// else
+	// {
+	// 	release_forks(philo, philo->r_fork);
+	// 	release_forks(philo, philo->l_fork);
+	// }
 	return (1);
 }
 
