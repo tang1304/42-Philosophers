@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:20:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/26 10:46:14 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 11:43:29 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	release_forks(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
 	{
-		pthread_mutex_unlock(&philo->l_fork);
-		pthread_mutex_unlock(philo->r_fork);
+	// philo->l_fork_i = 0;
+	pthread_mutex_unlock(&philo->l_fork);
+	// *philo->r_fork_i = 0;
+	pthread_mutex_unlock(philo->r_fork);
 	}
 	else
 	{
@@ -52,10 +54,10 @@ long long	get_time(void)
 
 long long	odd_wait(t_data *data)
 {
-	long long	wait;gd
+	long long	wait;
 
 	wait = data->tt_die - data->tt_eat - data->tt_sleep;
-	if (wait < 0)gdsr;
+	if (wait < 0)
 		wait = -wait;
 	if (wait == 0)
 		wait = 100;
@@ -71,4 +73,3 @@ void	destroy_mutexes(t_data *data)
 		pthread_mutex_destroy(&data->philo[i].l_fork);
 	pthread_mutex_destroy(&data->pause);
 }
-sr
