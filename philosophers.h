@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 11:54:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/25 14:11:15 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 08:36:05 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <string.h>
 
 # define MALLOC "Error: Malloc failure"
+# define MUTEX "Error: mutex_init failure"
 # define TRHREAD_CR "Error: pthread_create failure"
 # define TIME_ERR "Error: gettimeofday failure"
 # define THR_JOIN "Error: pthread_join failure\n"

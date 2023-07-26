@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:15:53 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/25 15:31:39 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 08:28:27 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	*philo_routine(void *arg)
 	if (philo->data->philo_nbr == 1)
 		return (handle_one_philo(philo), NULL);
 	if (philo->id % 2 != 0)
-		ft_usleep(1);
+		ft_usleep(10);
 	action(philo, philo->data);
 	return (NULL);
 }

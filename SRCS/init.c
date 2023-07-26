@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 09:22:14 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/25 14:26:11 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 08:36:33 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,16 @@ int	philo_init(t_data *data)
 	return (1);
 }
 
+static int	mutex_init(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	if (pthread_mutex_init(&data->pause, NULL) != 0)
+		return (error_display(MUTEX), free(data->philo), 0);
+	return (1);
+}
+
 int	data_init(t_data *data, char **argv)
 {
 	int	i;
@@ -56,6 +66,8 @@ int	data_init(t_data *data, char **argv)
 		return (error_display(MALLOC), 0);
 	i = -1;
 	if (!philo_init(data))
+		return (0);
+	if (!mutex_init(data))
 		return (0);
 	return (1);
 }
