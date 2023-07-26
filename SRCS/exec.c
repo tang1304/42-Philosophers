@@ -6,21 +6,11 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:15:53 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/25 08:47:34 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 16:19:45 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
-
-static void	handle_one_philo(t_philo *philo)
-{
-	printf("%lld Philo %d is thinking ...\n", get_time() - \
-			philo->data->start, philo->id);
-	printf("%lld Philo %d has taken a fork\n", get_time() - \
-			philo->data->start, philo->id);
-	printf("%lld Philo %d has died\n", get_time() - philo->data->start, \
-			philo->id);
-}
 
 static int	check_death(t_philo *philo)
 {
@@ -45,7 +35,7 @@ static int	death_check_loop(t_data *data)
 
 	while (1)
 	{
-		usleep(2000);
+		ft_usleep(3);
 		i = -1;
 		while (++i < data->philo_nbr)
 		{
@@ -103,10 +93,8 @@ void	*philo_routine(void *arg)
 	pthread_mutex_lock(&philo->data->pause);
 	philo->ate = get_time();
 	pthread_mutex_unlock(&philo->data->pause);
-	if (philo->data->philo_nbr == 1)
-		return (handle_one_philo(philo), NULL);
 	if (philo->id % 2 != 0)
-		usleep(3000);
+		usleep(20000);
 	action(philo, philo->data);
 	return (NULL);
 }

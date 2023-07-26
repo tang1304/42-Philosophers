@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 11:54:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/21 13:16:10 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 16:24:58 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <unistd.h>
-# include <stdint.h>
 # include <stdlib.h>
-# include <string.h>
 
 # define BAD_ARG "Error: Bad argument, must be a number"
 # define MALLOC "Error: Malloc failure"
@@ -81,10 +79,9 @@ void		ft_bzero(void *s, size_t n);
 void		ft_usleep(long long waiting);
 
 /*	utils.c	*/
-void		release_forks(t_philo *philo, int fork);
+int			get_forks(t_philo *philo);
 int			is_dead(t_philo *philo);
 long long	get_time(void);
-long long	odd_wait(t_data *data);
 void		destroy_mutexes(t_data *data);
 
 #endif
