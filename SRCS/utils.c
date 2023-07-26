@@ -6,17 +6,47 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:20:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/21 13:23:13 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 16:19:16 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-void	release_forks(t_philo *philo, int fork)
+static int	check_fork(t_philo *philo, int fork)
 {
+	long long	time;
+
 	pthread_mutex_lock(&philo->data->forks[fork]);
-	philo->data->forks_id[fork] = 0;
+	if (philo->data->forks_id[fork] == 0)
+	{
+		philo->data->forks_id[fork] = 1;
+		time = get_time() - philo->data->start;
+		printf("%lld %d has taken a fork\n", time, philo->id);
+		pthread_mutex_unlock(&philo->data->forks[fork]);
+		return (1);
+	}
 	pthread_mutex_unlock(&philo->data->forks[fork]);
+	return (0);
+}
+
+int	get_forks(t_philo *philo)
+{
+	int	left;
+	int	right;
+
+	left = 0;
+	right = 0;
+	while (left == 0 || right == 0)
+	{
+		if (is_dead(philo) == 1)
+			return (0);
+		if (left == 0)
+			left = check_fork(philo, philo->l_fork);
+		if (right == 0)
+			right = check_fork(philo, philo->r_fork);
+		usleep(500);
+	}
+	return (1);
 }
 
 int	is_dead(t_philo *philo)
@@ -41,16 +71,6 @@ long long	get_time(void)
 		return (-1);
 	}
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
-}
-
-long long	odd_wait(t_data *data)
-{
-	long long	wait;
-
-	wait = data->tt_die - data->tt_eat - data->tt_sleep;
-	if (wait < 0)
-		wait = -wait;
-	return (wait);
 }
 
 void	destroy_mutexes(t_data *data)
