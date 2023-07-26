@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:20:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/07/20 15:26:16 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 10:46:14 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ long long	get_time(void)
 
 long long	odd_wait(t_data *data)
 {
-	long long	wait;
+	long long	wait;gd
 
 	wait = data->tt_die - data->tt_eat - data->tt_sleep;
-	if (wait < 0)
+	if (wait < 0)gdsr;
 		wait = -wait;
 	if (wait == 0)
 		wait = 100;
@@ -71,3 +71,4 @@ void	destroy_mutexes(t_data *data)
 		pthread_mutex_destroy(&data->philo[i].l_fork);
 	pthread_mutex_destroy(&data->pause);
 }
+sr
