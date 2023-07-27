@@ -25,8 +25,6 @@ ${OBJ}: ${OBJ_DIR}%.o :	${SRCS_DIR}%.c ${HEADER}
 		@mkdir -p objs
 		${CC} ${CFLAGS} -I/usr/include -c $< -o $@
 
-FORCE:
-
 all :	${NAME}
 
 clean :
@@ -39,4 +37,4 @@ fclean :	clean
 
 re : 	fclean all
 
-.PHONY : all clean fclean re FORCE
+.PHONY : all clean fclean re
