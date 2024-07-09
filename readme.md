@@ -37,12 +37,20 @@ number_of_philosophers, time_to_die, time_to_eat, time_to_sleep,
 ./philo nbr ttdie tteat ttsleep (meal_nbr)
 ```
 During the simulation, we will print the logs of the philosophers' state change like this:
-	- *timestamp_in_ms X has taken a fork*
-	- *timestamp_in_ms X is eating*
-	- *timestamp_in_ms X is sleeping*
-	- *timestamp_in_ms X is thinking*
-	- *timestamp_in_ms X died*
+- *timestamp_in_ms X has taken a fork*
+- *timestamp_in_ms X is eating*
+- *timestamp_in_ms X is sleeping*
+- *timestamp_in_ms X is thinking*
+- *timestamp_in_ms X died*
 **timestamp_in_ms** being the current timestamp from the begining of the simulation, and **X** being the number of the philosopher.
 
 A message announcing a philosopher died should be displayed no more than 10 ms
 after the actual death of the philosopher. No more messages will be printed after a dying message.
+
+## Bonus part (not done):
+The rules stay the same for the binus program, except these specific rules:
+- All the forks are put in the middle of the table.
+- They have no states in memory but the number of available forks is represented by
+a semaphore.
+- Each philosopher should be a process. But the main process should not be a
+philosopher.
